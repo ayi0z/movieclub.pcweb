@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  {{$head_meta$}}
+  <title>{{$title$}} - DYBOX - 电影盒子</title>
+  <meta itemprop="name" content="dybox-{{$title$}}">
+  <meta name="keywords" content="电影盒子,高清电影,资讯,预告,最新电影,热门电影,高清在线,电影视频,1080P,720P,免费电影,{{$title$}},{{$title_en$}}" />
+  <meta name="description" itemprop="description" content="{{$desc$}}" />
+  <meta itemprop="image" content="{{$pic$}}">
+  <link rel="stylesheet" href="/css/play.css">
+</head>
+<body>
+  <nav>
+    {{$nav_right$}}
+  </nav>
+  <article>
+    <div class="player">
+      <div id="screen" class="screen">
+        <iframe id="screenfrm" name="screenfrm" scrolling="no" allowtransparency="true" frameborder="0"
+            width="100%" height="100%" align="middle" hspace="0" vspace="0"
+            allowfullscreen="true" marginheight="0" marginwidth="0"
+            src="">
+        </iframe>
+      </div>
+      <div class="show">
+        <h3 class="title">{{$title$}}</h3>
+        <h4 class="title_en">{{$title_en$}}</h4>
+      </div>
+      <div class="eps-playgate">
+        <ul id="eps_ul" class="eps">
+          {{$eps$}}
+        </ul>
+        <ul id="playgate" class="playgate">
+        </ul>
+        <ul id="playgate_tip" class="playgate" style="display:none;">
+            <li></li>
+          </ul>
+      </div>
+    </div>
+    <div class="playlist">
+      <ul>
+        {{$plitem$}}
+      </ul>
+    </div>
+  </article>
+  {{$footer$}}
+  <script src="/js/play.min.js"></script>
+  <script>const eps={{$jsoneps$}};</script>
+</body>
+</html>

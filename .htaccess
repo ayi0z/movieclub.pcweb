@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteRule ^$ index.php?pi=0
+    RewriteRule ^([0-9]+)$ /index.php?pi=0&sort=$1
+    RewriteRule ^h/(.*).html$ /play.php?mo=$1
+    RewriteRule ^q/(.*)/$ /index.php?pi=0&query=$1
+    RewriteRule ^q/(.*)/([0-9]+)$ /index.php?pi=0&query=$1&sort=$2
+    RewriteRule ^tvlive/$ /play.php?mo=tvlive
+    RewriteRule ^mo/$ /moplay/index.html
+    RewriteRule ^mo/(.*)$ /moplay/$1
+    RewriteRule ^([A-Za-z]*)/$ /index.php?pi=0&type=$1
+    RewriteRule ^([A-Za-z]*)/([0-9]+)$ /index.php?pi=0&type=$1&sort=$2
+</IfModule>

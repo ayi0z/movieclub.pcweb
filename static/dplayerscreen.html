@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="referrer" content="never" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <link rel="stylesheet" type="text/css" media="screen" href="../css/player.min.css" />
+  <style>
+    html, body {
+      overflow: hidden;
+      background-color: #20222B;
+      width: 100%;
+      height: 100%;
+    }
+    .dplayer {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="dplayer" class="dplayer"></div>
+  <script>
+    let el_script = document.createElement("script");
+    el_script.type="text/javascript";
+    let vurl = location.search.substr(5)
+    if ( vurl.startsWith('magnet:') ){
+        el_script.src = "https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js";
+    } else {
+      let vtype = vurl.substr(vurl.toLowerCase().lastIndexOf('.'));
+      if(vtype=='.m3u8'){
+        el_script.src = "https://cdn.jsdelivr.net/npm/hls.js@latest";
+      } else if(vtype=='.mpd'){
+        el_script.src = "http://reference.dashif.org/dash.js/nightly/dist/dash.all.min.js";
+      } else if(vtype=='.flv'){
+        el_script.src = "../js/flv.min.js";
+      } else {
+        console.log('未知媒体源格式')
+      }
+    }
+    document.getElementsByTagName('head')[0].appendChild(el_script); 
+
+    el_script.onload=function(){
+      let player_script = document.createElement("script");
+      player_script.type="text/javascript";
+      player_script.src = '../js/player.min.js';
+      document.getElementsByTagName('head')[0].appendChild(player_script);
+      player_script.onload=function(){
+        if(vurl) {
+          dp = new DPlayer({
+              container : document.getElementById('dplayer'),
+              screenshot : false,
+              preload:true,
+              autoplay:true,
+              video : {
+                  url: vurl
+              }
+          });
+          dp.on('waiting', function () {
+            dp.notice('正在拼命加载，马上就好...', 2000, 0.6);
+          });
+          dp.on('error', function () {
+            dp.notice('视频加载失败，正在重新加载，若依然失败请尝试刷新浏览器', 10000, 0.6);
+            let cutime = dp.video.currentTime;
+            dp.switchVideo({ url: vurl });
+            dp.seek(cutime);
+            dp.play();
+          });
+        }
+      }
+    }
+  </script>
+</body>
+</html>
